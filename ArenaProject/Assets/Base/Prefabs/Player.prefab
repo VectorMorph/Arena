@@ -432,10 +432,6 @@ MonoBehaviour:
   disableOnDeath:
   - {fileID: 114061689674212188}
   - {fileID: 114832067241341528}
-  disableGameobjectsOnDeath:
-  - {fileID: 1850928234532596}
-  deathEffect: {fileID: 1000012909287652, guid: abb9f519b142e304d9c45b56afa768bc,
-    type: 2}
 --- !u!114 &114198922119174686
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -485,8 +481,6 @@ MonoBehaviour:
   - {fileID: 20371777291814286}
   - {fileID: 81718224529590180}
   - {fileID: 20799899593583382}
-  dontDrawLayerName: DontDraw
-  playerGraphics: {fileID: 0}
   remoteLayerName: RemotePlayer
   playerUIPrefab: {fileID: 1946124894180498, guid: 3587f172ab3afcd4bb4f5d92bbdd6d18,
     type: 2}
@@ -515,7 +509,8 @@ MonoBehaviour:
   firstCam: {fileID: 20371777291814286}
   thirdCam: {fileID: 0}
   cameraRotationLimit: 85
-  hasJetpack: 1
+  hasJetpack: 0
+  jetpackThrust: 10
   sprintMultiplier: 1.4
   onGround: 0
 --- !u!114 &114832067241341528

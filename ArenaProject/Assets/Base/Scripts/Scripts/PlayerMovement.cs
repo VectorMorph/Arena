@@ -20,8 +20,9 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField]
     private bool hasJetpack;
     [SerializeField]
+    private float jetpackThrust;
+    [SerializeField]
     private float sprintMultiplier = 2f;
-
 
     private Rigidbody rb;
     [SerializeField]
@@ -97,7 +98,6 @@ public class PlayerMovement : MonoBehaviour {
         {
             rb.AddForce(jumpHeight * Time.fixedDeltaTime / 10, ForceMode.Impulse);
         }
-
     }
 
     void PerformRotation()
