@@ -6,7 +6,10 @@ public class PlayerSetup : NetworkBehaviour {
 
     [SerializeField]
     Behaviour[] compononentsToDisable;
-
+    [SerializeField]
+    string dontDrawLayerName = "DontDraw";
+    [SerializeField]
+    private GameObject playerGraphics;
     [SerializeField]
     string remoteLayerName = "RemotePlayer";
 
@@ -14,7 +17,6 @@ public class PlayerSetup : NetworkBehaviour {
     GameObject playerUIPrefab;
     private GameObject playerUIInstance;
 
-    Camera sceneCamera;
 
     private void Start()
     {
@@ -25,20 +27,35 @@ public class PlayerSetup : NetworkBehaviour {
         }
         else
         {
-            sceneCamera = Camera.main;
-            if(sceneCamera != null)
-            {
-                sceneCamera.gameObject.SetActive(false);
-            }
 
+            // Disable player graphics for local player
+            SetLayerRecursively(playerGraphics, LayerMask.NameToLayer(dontDrawLayerName));
             //Create player ui
             playerUIInstance = Instantiate(playerUIPrefab);
             playerUIInstance.name = playerUIPrefab.name;
-            
+
+            //config player ui
+            PlayerUI ui = playerUIInstance.GetComponent<PlayerUI>();
+            if(ui == null)
+            {
+                Debug.LogError("No player ui component on PlayerUi prefab");
+            }
+            ui.SetPlayer(GetComponent<Player>());
+
         }
 
         GetComponent<Player>().Setup();
 
+    }
+
+    void SetLayerRecursively(GameObject obj, int newLayer)
+    {
+        obj.layer = newLayer;
+
+        foreach (Transform child in obj.transform)
+        {
+            SetLayerRecursively(child.gameObject, newLayer);
+        }
     }
 
     public override void OnStartClient()
@@ -69,10 +86,7 @@ public class PlayerSetup : NetworkBehaviour {
     {
         Destroy(playerUIInstance);
 
-        if(sceneCamera != null)
-        {
-            Camera.main.gameObject.SetActive(true);
-        }
+        GameManager.instance.SetSceneCameraActive(true);
 
         GameManager.UnRegisterPlayer(transform.name);
     }
